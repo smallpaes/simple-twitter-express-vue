@@ -15,11 +15,15 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto align-items-center">
+        <li class="nav-item avatar" v-if="isAuthenticated">
+          <a href class="nav-link p-0">
+            <img :src="currentUser.avatar | placeholderImage" alt="User avatar" class="rounded" />
+          </a>
+        </li>
         <li v-if="currentUser.role ==='Admin'" class="nav-item">
           <!--Must be changed into router link-->
           <a class="nav-link" href="#">Admin</a>
         </li>
-
         <button
           v-if="isAuthenticated"
           class="btn btn-sm ml-2 d-none d-md-inline-block btn-outline-light rounded-lg"
@@ -36,8 +40,10 @@
 
 <script>
 import { mapState } from "vuex";
+import { placeholderImageCreator } from "../utils/mixins";
 
 export default {
+  mixins: [placeholderImageCreator],
   computed: {
     ...mapState(["currentUser", "isAuthenticated"])
   },
@@ -53,6 +59,7 @@ export default {
 <style scoped>
 nav {
   background: #1da1f2;
+  height: 56px;
 }
 
 .navbar-brand,
@@ -62,6 +69,11 @@ nav {
 
 .navbar-dark .navbar-toggler {
   border-color: transparent;
+}
+
+.avatar img {
+  height: 40px;
+  width: auto;
 }
 
 .btn-outline-light:hover {

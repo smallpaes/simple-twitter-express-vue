@@ -1,4 +1,8 @@
 /*General*/
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif
 }
