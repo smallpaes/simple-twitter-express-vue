@@ -4,7 +4,8 @@
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif
+  font-family: Arial, Helvetica, sans-serif;
+  color: #4c4c4c;
 }
 
 a,
@@ -16,8 +17,14 @@ a:hover {
   box-shadow: none;
 }
 
+.btn:focus,
 button:focus {
   outline: transparent;
+  box-shadow: none;
+}
+
+.title {
+  color: #1da1f2;
 }
 
 /*Sign up & Log in form*/

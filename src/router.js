@@ -40,6 +40,11 @@ const router = new Router({
       component: Tweets
     },
     {
+      path: '/users/:id/followings',
+      name: 'followings',
+      component: () => import('./views/Followings.vue')
+    },
+    {
       path: '*',
       name: 'not-found',
       component: () => import('./views/NotFound.vue')
