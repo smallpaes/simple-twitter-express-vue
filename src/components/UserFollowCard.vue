@@ -8,18 +8,21 @@
         </h5>
         <p>{{user.introduction}}</p>
         <div class="text-right">
-          <button
-            class="btn"
-            :disabled="isProcessing"
-            v-if="user.isFollowed"
-            @click.stop.prevent="removeFollowing(user.id)"
-          >Unfollow</button>
-          <button
-            class="btn"
-            :disabled="isProcessing"
-            v-else
-            @click.stop.prevent="addFollowing(user.id)"
-          >Follow</button>
+          <a href v-if="user.id === currentUser.id" class="btn" role="button">Edit</a>
+          <template v-else>
+            <button
+              class="btn"
+              :disabled="isProcessing"
+              v-if="user.isFollowed"
+              @click.stop.prevent="removeFollowing(user.id)"
+            >Unfollow</button>
+            <button
+              class="btn"
+              :disabled="isProcessing"
+              v-else
+              @click.stop.prevent="addFollowing(user.id)"
+            >Follow</button>
+          </template>
         </div>
       </div>
     </div>
@@ -30,9 +33,13 @@
 import followshipAPI from "../apis/followship";
 import { Toast } from "../utils/helpers";
 import { placeholderImageCreator } from "../utils/mixins";
+import { mapState } from "vuex";
 
 export default {
   mixins: [placeholderImageCreator],
+  computed: {
+    ...mapState(["currentUser"])
+  },
   props: {
     initialUser: {
       type: Object,
