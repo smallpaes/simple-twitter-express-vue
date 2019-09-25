@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-md navbar-dark shadow-sm">
+  <nav class="navbar navbar-expand-md navbar-dark shadow-sm fixed-top">
     <router-link to="/" class="navbar-brand">Simple Twitter</router-link>
     <button
       v-if="isAuthenticated"
@@ -17,7 +17,12 @@
       <ul class="navbar-nav ml-auto align-items-center">
         <li class="nav-item avatar" v-if="isAuthenticated">
           <a href class="nav-link p-0">
-            <img :src="currentUser.avatar | placeholderImage" alt="User avatar" class="rounded" />
+            <span class="d-inline d-md-none">Profile</span>
+            <img
+              :src="currentUser.avatar | placeholderImage"
+              alt="User avatar"
+              class="rounded d-none d-md-inline"
+            />
           </a>
         </li>
         <li v-if="currentUser.role ==='Admin'" class="nav-item">
@@ -59,7 +64,6 @@ export default {
 <style scoped>
 nav {
   background: #1da1f2;
-  height: 56px;
 }
 
 .navbar-brand,

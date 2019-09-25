@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Navbar class="mb-3" />
-    <router-view />
+    <Navbar />
+    <router-view class="position-adjustment" />
   </div>
 </template>
 
@@ -19,4 +19,7 @@ export default {
 </script>
 
 <style>
+.position-adjustment {
+  margin-top: 5rem;
+}
 </style>

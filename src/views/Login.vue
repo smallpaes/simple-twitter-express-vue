@@ -1,5 +1,5 @@
 <template>
-  <div class="auth-container shadow-sm mt-5 mx-auto rounded">
+  <div class="auth-container shadow-sm mx-auto rounded">
     <form @submit.prevent.stop="handlesubmit" class="p-3">
       <h3 class="mt-2 mb-4">Log in to Simple Twitter</h3>
       <div class="form-group">
