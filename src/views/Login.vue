@@ -88,7 +88,7 @@ export default {
         this.isProcessing = false;
         Toast.fire({
           type: "warning",
-          title: "Log in failed, please try again later"
+          title: "Incorrect email or password"
         });
       }
     }
