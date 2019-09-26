@@ -9,5 +9,11 @@ export default {
   },
   getFollowers({ userId }) {
     return apiHelper.get(`/users/${userId}/followers`)
+  },
+  getEditUser({ userId }) {
+    return apiHelper.get(`/users/${userId}/edit`)
+  },
+  postEditUser({ userId, formData }) {
+    return apiHelper.post(`/users/${userId}/edit`, formData)
   }
 }
