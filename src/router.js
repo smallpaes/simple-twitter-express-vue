@@ -55,6 +55,12 @@ const router = new Router({
       component: () => import('./views/UserEdit.vue')
     },
     {
+      path: '/admin/users',
+      name: 'admin-users',
+      component: () => import('./views/AdminUsers.vue'),
+      beforeEnter: authorizeIsAdmin
+    },
+    {
       path: '*',
       name: 'not-found',
       component: () => import('./views/NotFound.vue')
