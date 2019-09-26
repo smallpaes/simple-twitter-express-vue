@@ -8,7 +8,7 @@
       <div class="col-9 row">
         <h4 class="col-12 title">Following</h4>
         <UserFollowCard v-for="user in followings" :key="user.id" :initial-user="user" />
-        <div class="col-12 shadow-sm p-3 rounded" v-if="followings.length < 1">
+        <div class="col-12 shadow-sm p-3 rounded bg-white" v-if="followings.length < 1">
           <i class="fas fa-user mr-2"></i>No following users
         </div>
       </div>

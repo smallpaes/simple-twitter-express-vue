@@ -1,6 +1,6 @@
 <template>
   <div class="col-12 col-md-6 p-2">
-    <div class="media shadow-sm rounded">
+    <div class="media shadow-sm rounded bg-white">
       <img :src="user.avatar | placeholderImage" class="mr-3 rounded-left" alt="avatar" />
       <div class="media-body p-2">
         <h5 class="mt-0">

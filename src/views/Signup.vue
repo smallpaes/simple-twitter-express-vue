@@ -1,5 +1,5 @@
 <template>
-  <div class="auth-container shadow-sm mx-auto rounded">
+  <div class="auth-container shadow-sm mx-auto rounded bg-white">
     <form @submit.prevent.stop="handlesubmit" class="p-3">
       <h3 class="mt-2 mb-4">Log in to Simple Twitter</h3>
       <div class="form-group">
@@ -39,7 +39,7 @@
       </button>
       <button v-else type="submit" class="btn">Sign up</button>
     </form>
-    <div class="p-3 bg-light mt-2">
+    <div class="p-3 bg-light mt-2 rounded-bottom">
       <p class="m-0 text-secondary">
         Already on Simple Twitter?
         <router-link :to="{name: 'log-in'}" class="ml-2">Log in now &rsaquo;&rsaquo;</router-link>
