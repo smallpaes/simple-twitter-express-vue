@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card border-left-0 border-right-0">
     <div class="card-header bg-white" id="headingOne">
       <div class="media">
         <img :src="tweet.User.avatar | placeholderImage" class="mr-3 rounded-circle" alt="avatar" />

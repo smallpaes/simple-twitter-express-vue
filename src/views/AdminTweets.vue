@@ -3,8 +3,14 @@
   <section v-else class="container">
     <div class="row">
       <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-        <h4 class="title">User Admin</h4>
+        <h4 class="title">Tweet Admin</h4>
         <div class="accordion my-3" id="tweets">
+          <!--Admin nav-->
+          <div class="bg-white px-3 py-2 rounded-top admin-nav">
+            <router-link class="mr-3" :to="{name: 'admin-tweets'}">Tweets</router-link>
+            <router-link :to="{name: 'admin-users'}">Users</router-link>
+          </div>
+          <!--Tweet list-->
           <AdminTweetCard
             v-for="tweet in tweets"
             :key="tweet.id"
@@ -15,7 +21,7 @@
       </div>
     </div>
   </section>
-</template>s
+</template>
 
 <script>
 import AdminTweetCard from "../components/AdminTweetCard";
@@ -67,3 +73,18 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.admin-nav a {
+  color: #4c4c4c;
+}
+
+.admin-nav a:first-of-type {
+  color: rgb(0, 132, 180);
+}
+
+.admin-nav a:hover {
+  color: #1da1f2;
+  text-decoration: none;
+}
+</style>
