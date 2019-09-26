@@ -61,6 +61,12 @@ const router = new Router({
       beforeEnter: authorizeIsAdmin
     },
     {
+      path: '/admin/tweets',
+      name: 'admin-tweets',
+      component: () => import('./views/AdminTweets.vue'),
+      beforeEnter: authorizeIsAdmin
+    },
+    {
       path: '*',
       name: 'not-found',
       component: () => import('./views/NotFound.vue')

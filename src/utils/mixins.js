@@ -1,4 +1,6 @@
-export const placeholderImageCreator = {
+import moment from "moment"
+
+const placeholderImageCreator = {
   filters: {
     placeholderImage(src) {
       if (src) return src;
@@ -6,3 +8,14 @@ export const placeholderImageCreator = {
     }
   }
 }
+
+const fromNowFilter = {
+  filters: {
+    fromNow(date) {
+      if (!date) return;
+      return moment(date).fromNow(true);
+    }
+  }
+}
+
+export { placeholderImageCreator, fromNowFilter }
