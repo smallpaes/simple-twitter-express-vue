@@ -6,5 +6,11 @@ export default {
   },
   postTweet({ formData }) {
     return apiHelper.post('/tweets', formData )
+  },
+  addLike({ tweetId }) {
+    return apiHelper.post(`/tweets/${tweetId}/like`)
+  },
+  removeLike ({ tweetId }) {
+    return apiHelper.post(`/tweets/${tweetId}/unlike`)
   }
 }
