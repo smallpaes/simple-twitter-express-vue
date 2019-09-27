@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <h1>Tweets</h1>
     <div class="row">
       <div class="col-md-8">
         <div class="postTweet col-12 p-2">
@@ -19,6 +18,7 @@
         />
       </div>
       <div class="col-md-4">
+        <h1>Popular</h1>
         <!-- top 10 users -->
         <UserFollowCard v-for="user in popularUsersData" :key="user.id" :initial-user="user" />
       </div>
@@ -64,7 +64,6 @@ export default {
         this.tweets = data.tweets;
         this.popularUsersData = data.popularUsersData;
       } catch (error) {
-        this.isProccessing = false;
         Toast.fire({
           type: "error",
           title: error.message || "Cannot get tweets, please try again."
