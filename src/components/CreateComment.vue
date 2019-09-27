@@ -30,7 +30,7 @@ export default {
     };
   },
   methods: {
-    handleSubmit(e) {
+    handleSubmit() {
       const formData = {
         UserId: this.UserId,
         description: this.description
