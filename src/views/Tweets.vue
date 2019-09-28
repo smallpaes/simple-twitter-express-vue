@@ -1,5 +1,7 @@
 <template>
-  <div class="container">
+  <Spinner v-if="isLoading" />
+  <section v-else class="px-5">
+    <h1>Tweets</h1>
     <div class="row">
       <div class="col-md-8">
         <div class="postTweet col-12 p-2">
@@ -18,12 +20,11 @@
         />
       </div>
       <div class="col-md-4">
-        <h1>Popular</h1>
         <!-- top 10 users -->
         <UserFollowCard v-for="user in popularUsersData" :key="user.id" :initial-user="user" class="col-md-12"/>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -31,6 +32,7 @@ import { mapState } from "vuex";
 import Tweets from "../components/Tweets";
 import CreateComment from "../components/CreateComment";
 import UserFollowCard from "../components/UserFollowCard";
+import Spinner from "../components/Spinner";
 import tweetApi from "../apis/tweet";
 import { Toast } from "../utils/helpers";
 
@@ -38,7 +40,8 @@ export default {
   components: {
     Tweets,
     CreateComment,
-    UserFollowCard
+    UserFollowCard,
+    Spinner
   },
   computed: {
     ...mapState(["currentUser"])
@@ -46,7 +49,8 @@ export default {
   data() {
     return {
       tweets: [],
-      popularUsersData: [],
+      popularUsersData: [],      
+      isLoading: false
     };
   },
   created() {
@@ -63,7 +67,9 @@ export default {
         }
         this.tweets = data.tweets;
         this.popularUsersData = data.popularUsersData;
+        this.isLoading = false;
       } catch (error) {
+        this.isLoading = false;
         Toast.fire({
           type: "error",
           title: error.message || "Cannot get tweets, please try again."
