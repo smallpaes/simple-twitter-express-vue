@@ -13,7 +13,7 @@
             <button
               class="btn"
               :disabled="isProcessing"
-              v-if="user.isFollowed"
+              v-if="user.isFollowing"
               @click.stop.prevent="removeFollowing(user.id)"
             >Unfollow</button>
             <button
