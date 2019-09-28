@@ -4,6 +4,7 @@
     <div class="row">
       <div class="col-lg-3">
         <!--Profile-->
+        <UserProfile :initial-user="user" :key="user.id" />
       </div>
       <div class="col-lg-9">
         <div class="row px-3">
@@ -19,26 +20,17 @@
 </template>
 
 <script>
-const dummyUser = {
-  id: 1,
-  name: "root",
-  avatar: "https://s3.amazonaws.com/uifaces/faces/twitter/lawlbwoy/128.jpg",
-  introduction: null,
-  TweetsCount: 5,
-  FollowerCount: 2,
-  FollowingCount: 0,
-  LikeCount: 0
-};
-
 import UserFollowCard from "../components/UserFollowCard";
 import userAPI from "../apis/users";
 import { Toast } from "../utils/helpers";
 import Spinner from "../components/Spinner";
+import UserProfile from "../components/UserProfile";
 
 export default {
   components: {
     UserFollowCard,
-    Spinner
+    Spinner,
+    UserProfile
   },
   data() {
     return {
