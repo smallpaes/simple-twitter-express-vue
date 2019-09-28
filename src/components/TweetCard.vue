@@ -13,9 +13,9 @@
           </router-link>
           <span>{{ tweet.createdAt | date }}</span>
         </div>
-        <p>{{tweet.description}}</p>
+        <p class="context">{{tweet.description}}</p>
         <div class="mt-4">
-          <router-link :to="{name: 'user-tweets', params: {id: tweet.id}}" class="mr-3 replies">
+          <router-link :to="{name: 'tweet-replies', params: {id: tweet.id}}" class="mr-3 replies">
             <span><i class="far fa-comment-alt"></i> Reply ({{tweet.RepliesCount}})</span>
           </router-link>
           <button
@@ -71,13 +71,15 @@ export default {
         }
         this.tweet = {
           ...this.tweet,
+          LikesCount: Number(this.tweet.LikesCount) + 1,
           isLiked: true
         };
+        console.log(this.tweet)
         this.isProcessing = false;
       } catch (error) {
         Toast.fire({
           type: "error",
-          title: "Cannot follow the user, please try again later"
+          title: "Cannot Like the user, please try again later"
         });
       }
     },
@@ -90,13 +92,14 @@ export default {
         }
         this.tweet = {
           ...this.tweet,
+          LikesCount: Number(this.tweet.LikesCount) - 1,
           isLiked: false
         };
         this.isProcessing = false;
       } catch (error) {
         Toast.fire({
           type: "error",
-          title: "Cannot follow the user, please try again later"
+          title: "Cannot unLike the user, please try again later"
         });
       }
     }
@@ -117,13 +120,13 @@ export default {
   text-align: center;
 }
 img {
-  width: 90px;
+  max-width: 128px;
 }
 .content {
   flex-basis: 0px;
   flex-grow: 4;
 }
-.username, .replies, .like, .unlike {
+.username, .context, .replies, .like, .unlike {
   padding: 10px 1.1rem;
   font-size: 1.1rem;
 }
