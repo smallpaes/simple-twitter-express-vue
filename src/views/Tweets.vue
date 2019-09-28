@@ -82,8 +82,20 @@ export default {
         if (statusText !== 'Created' || data.status !== "success") {
           throw new Error(data.message);
         }
-        const { data: updateData } = await tweetApi.getTweets();
-        this.tweets= updateData.tweets;
+        this.tweets.unshift({
+          id: data.tweet_id,
+          description: formData.description,
+          createdAt: new Date(),
+          Likes: Array(0),
+          LikesCount: 0,
+          RepliesCount: 0,
+          User: {
+            id: this.currentUser.id,
+            name: this.currentUser.name,
+            avatar: this.currentUser.avatar
+          },
+          isLiked: false
+        });
       } catch (error) {
         Toast.fire({
           type: "error",

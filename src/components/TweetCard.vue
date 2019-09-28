@@ -15,7 +15,7 @@
         </div>
         <p class="context">{{tweet.description}}</p>
         <div class="mt-4">
-          <router-link :to="{name: 'tweet-replies', params: {id: tweet.id}}" class="mr-3 replies">
+          <router-link :to="{name: 'tweet-replies', params: {tweet_id: tweet.id}}" class="mr-3 replies">
             <span><i class="far fa-comment-alt"></i> Reply ({{tweet.RepliesCount}})</span>
           </router-link>
           <button
