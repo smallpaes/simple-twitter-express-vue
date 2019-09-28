@@ -75,7 +75,7 @@ export default {
         // update data
         this.user = {
           ...this.user,
-          isFollowed: true
+          isFollowing: true
         };
         // update processing status
         this.isProcessing = false;
@@ -102,7 +102,7 @@ export default {
         // update data
         this.user = {
           ...this.user,
-          isFollowed: false
+          isFollowing: false
         };
         // update processing status
         this.isProcessing = false;

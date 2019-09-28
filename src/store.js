@@ -11,7 +11,8 @@ export default new Vuex.Store({
       name: '',
       email: '',
       avatar: '',
-      role: 'User'
+      role: 'User',
+      introduction: ''
     },
     isAuthenticated: false,
     token: ''
@@ -45,7 +46,8 @@ export default new Vuex.Store({
           name: data.name,
           email: data.email,
           avatar: data.avatar,
-          role: data.role
+          role: data.role,
+          introduction: data.introduction
         })
         return true
       } catch (error) {
