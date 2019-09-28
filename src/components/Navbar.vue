@@ -26,8 +26,7 @@
           </a>
         </li>
         <li v-if="currentUser.role ==='Admin'" class="nav-item">
-          <!--Must be changed into router link-->
-          <a class="nav-link" href="#">Admin</a>
+          <router-link :to="{name: 'admin-tweets'}" class="nav-link">Admin</router-link>
         </li>
         <button
           v-if="isAuthenticated"
