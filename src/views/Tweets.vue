@@ -20,7 +20,7 @@
       <div class="col-md-4">
         <h1>Popular</h1>
         <!-- top 10 users -->
-        <UserFollowCard v-for="user in popularUsersData" :key="user.id" :initial-user="user" />
+        <UserFollowCard v-for="user in popularUsersData" :key="user.id" :initial-user="user" class="col-md-12"/>
       </div>
     </div>
   </div>
