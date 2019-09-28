@@ -4,6 +4,12 @@
     <div class="row">
       <div class="col-lg-3">
         <!--Profile-->
+        <UserProfile
+          :initial-user="user"
+          :key="user.id"
+          @after-add-followship="afterAddFollowship"
+          @after-remove-followship="afterRemoveFollowship"
+        />
       </div>
       <div class="col-lg-9">
         <div class="row px-3">
@@ -34,11 +40,13 @@ import UserFollowCard from "../components/UserFollowCard";
 import userAPI from "../apis/users";
 import { Toast } from "../utils/helpers";
 import Spinner from "../components/Spinner";
+import UserProfile from "../components/UserProfile";
 
 export default {
   components: {
     UserFollowCard,
-    Spinner
+    Spinner,
+    UserProfile
   },
   data() {
     return {
@@ -79,6 +87,16 @@ export default {
           title: "Cannot get followers, please try again later!"
         });
       }
+    },
+    //update userFollowing data after afterAddFollowship
+    async afterAddFollowship(payload) {
+      const { userId, currentUser } = payload;
+      this.fetchUserFollowers(userId);
+    },
+    //update userFollowing data after afterRemoveFollowship
+    async afterRemoveFollowship(payload) {
+      const { userId, currentUser } = payload;
+      this.fetchUserFollowers(userId);
     }
   }
 };
