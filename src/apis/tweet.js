@@ -12,5 +12,11 @@ export default {
   },
   removeLike ({ tweetId }) {
     return apiHelper.post(`/tweets/${tweetId}/unlike`)
-  }
+  },
+  getReplies({ tweet_id }) {
+    return apiHelper.get(`/tweets/${tweet_id}/replies`)
+  },
+  postReplies({ tweet_id, formData }) {
+    return apiHelper.post(`/tweets/${tweet_id}/replies`, formData )
+  },
 }

@@ -40,6 +40,11 @@ const router = new Router({
       component: Tweets
     },
     {
+      path: '/tweets/:tweet_id/replies',
+      name: 'tweet-replies',
+      component: () => import('./views/TweetReplies.vue')
+    },
+    {
       path: '/users/:id/followings',
       name: 'followings',
       component: () => import('./views/Followings.vue')
