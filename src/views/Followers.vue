@@ -90,13 +90,19 @@ export default {
     },
     //update userFollowing data after afterAddFollowship
     async afterAddFollowship(payload) {
-      const { userId, currentUser } = payload;
-      this.fetchUserFollowers(userId);
+      const { currentUser } = payload;
+      // push currentUser to followers
+      this.followers.push({
+        ...currentUser,
+        isFollowing: true
+      });
     },
     //update userFollowing data after afterRemoveFollowship
     async afterRemoveFollowship(payload) {
-      const { userId, currentUser } = payload;
-      this.fetchUserFollowers(userId);
+      const { currentUser } = payload;
+      this.followers = this.followers.filter(
+        follower => follower.id !== currentUser.id
+      );
     }
   }
 };

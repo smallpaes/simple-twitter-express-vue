@@ -73,11 +73,11 @@ export default {
         // update data
         this.user = {
           ...this.user,
-          isFollowed: true
+          isFollowing: true,
+          FollowerCount: Number(this.user.FollowerCount) + 1
         };
         // notify parent
         this.$emit("after-add-followship", {
-          userId,
           currentUser: this.currentUser
         });
 
@@ -106,11 +106,12 @@ export default {
         // update data
         this.user = {
           ...this.user,
-          isFollowed: false
+          isFollowing: false,
+          FollowerCount: Number(this.user.FollowerCount) - 1
         };
+
         // notify parent
         this.$emit("after-remove-followship", {
-          userId,
           currentUser: this.currentUser
         });
 

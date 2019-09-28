@@ -4,12 +4,7 @@
     <div class="row">
       <div class="col-lg-3">
         <!--Profile-->
-        <UserProfile
-          :initial-user="user"
-          :key="user.id"
-          @after-add-followship="afterAddFollowship"
-          @after-remove-followship="afterRemoveFollowship"
-        />
+        <UserProfile :initial-user="user" :key="user.id" />
       </div>
       <div class="col-lg-9">
         <div class="row px-3">
@@ -88,16 +83,6 @@ export default {
           title: "Cannot get following users, please try again later!"
         });
       }
-    },
-    //update userFollowing data after afterAddFollowship
-    async afterAddFollowship(payload) {
-      const { userId, currentUser } = payload;
-      this.fetchUserFollowings(userId);
-    },
-    //update userFollowing data after afterRemoveFollowship
-    async afterRemoveFollowship(payload) {
-      const { userId, currentUser } = payload;
-      this.fetchUserFollowings(userId);
     }
   }
 };
