@@ -13,7 +13,7 @@
         <br />
         <br />
         <!-- tweets-->
-        <Tweets
+        <TweetCard
           v-for="tweet in tweets"
           :key="tweet.id"
           :initial-tweet="tweet"
@@ -29,7 +29,7 @@
 
 <script>
 import { mapState } from "vuex";
-import Tweets from "../components/Tweets";
+import TweetCard from "../components/TweetCard";
 import CreateComment from "../components/CreateComment";
 import UserFollowCard from "../components/UserFollowCard";
 import Spinner from "../components/Spinner";
@@ -38,7 +38,7 @@ import { Toast } from "../utils/helpers";
 
 export default {
   components: {
-    Tweets,
+    TweetCard,
     CreateComment,
     UserFollowCard,
     Spinner
@@ -82,8 +82,19 @@ export default {
         if (statusText !== 'Created' || data.status !== "success") {
           throw new Error(data.message);
         }
-        const { data: updateData } = await tweetApi.getTweets();
-        this.tweets= updateData.tweets;
+        this.tweets.unshift({
+          id: data.tweet_id,
+          description: formData.description,
+          createdAt: Date.now(),
+          LikesCount: 0,
+          RepliesCount: 0,
+          User: {
+            id: this.currentUser.id,
+            name: this.currentUser.name,
+            avatar: this.currentUser.avatar
+          },
+          isLiked: false
+        })
       } catch (error) {
         Toast.fire({
           type: "error",
