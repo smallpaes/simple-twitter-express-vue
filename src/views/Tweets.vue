@@ -1,7 +1,6 @@
 <template>
   <Spinner v-if="isLoading" />
   <section v-else class="px-5">
-    <h1>Tweets</h1>
     <div class="row">
       <div class="col-md-8">
         <div class="postTweet col-12 p-2">
@@ -21,6 +20,7 @@
       </div>
       <div class="col-md-4">
         <!-- top 10 users -->
+        <h1>Popular</h1>
         <UserFollowCard v-for="user in popularUsersData" :key="user.id" :initial-user="user" class="col-md-12"/>
       </div>
     </div>
@@ -106,3 +106,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+h1 {
+  color: #1DA1F2;
+}
+</style>
