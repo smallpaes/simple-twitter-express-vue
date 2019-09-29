@@ -31,13 +31,12 @@
         <li v-if="currentUser.role ==='Admin'" class="nav-item">
           <router-link :to="{name: 'admin-tweets'}" class="nav-link">Admin</router-link>
         </li>
-        <button
-          v-if="isAuthenticated"
-          class="btn btn-sm ml-2 d-none d-md-inline-block btn-outline-light rounded-lg"
-          @click.stop.prevent="logout"
-        >Log out</button>
         <li class="nav-item" v-if="isAuthenticated">
-          <!--Must be changed into router link-->
+          <button
+            v-if="isAuthenticated"
+            class="btn btn-sm ml-2 d-none d-md-inline-block btn-outline-light rounded-lg"
+            @click.stop.prevent="logout"
+          >Log out</button>
           <button @click.stop.prevent="logout" class="btn d-md-none">Log out</button>
         </li>
       </ul>
