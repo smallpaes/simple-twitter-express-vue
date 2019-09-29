@@ -40,6 +40,11 @@ const router = new Router({
       component: Tweets
     },
     {
+      path: '/tweets/:tweet_id/replies',
+      name: 'tweet-replies',
+      component: () => import('./views/TweetReplies.vue')
+    },
+    {
       path: '/users/:id/followings',
       name: 'followings',
       component: () => import('./views/Followings.vue')
@@ -58,6 +63,11 @@ const router = new Router({
       path: '/users/:id/tweets',
       name: 'user-tweets',
       component: () => import('./views/UserTweets.vue')
+    },
+    {
+      path: '/users/:id/likes',
+      name: 'likes',
+      component: () => import('./views/Likes.vue')
     },
     {
       path: '/admin/users',

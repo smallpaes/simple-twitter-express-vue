@@ -1,14 +1,11 @@
 <template>
   <Spinner v-if="isLoading" />
-  <section v-else class="px-5">
-    <h1>Tweets</h1>
+  <section v-else class="container">
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-lg-7 col-xl-8">
+        <h1>Tweet</h1>
         <div class="postTweet col-12 p-2">
-          <CreateComment
-            :user-id="currentUser.id"
-            @after-create-comment="afterCreateComment"
-          />
+          <CreateComment :user-id="currentUser.id" @after-create-comment="afterCreateComment" />
         </div>
         <br />
         <br />
@@ -20,9 +17,15 @@
           @after-delete-tweet="afterDeleteTweet"
         />
       </div>
-      <div class="col-md-4">
+      <div class="col-lg-5 col-xl-4">
         <!-- top 10 users -->
-        <UserFollowCard v-for="user in popularUsersData" :key="user.id" :initial-user="user" class="col-md-12"/>
+        <h1>Popular</h1>
+        <UserFollowCard
+          v-for="user in popularUsersData"
+          :key="user.id"
+          :initial-user="user"
+          class="col-md-12"
+        />
       </div>
     </div>
   </section>
@@ -50,7 +53,7 @@ export default {
   data() {
     return {
       tweets: [],
-      popularUsersData: [],      
+      popularUsersData: [],
       isLoading: false
     };
   },
@@ -83,7 +86,7 @@ export default {
     async afterCreateComment(formData) {
       try {
         const { data, statusText } = await tweetApi.postTweet({ formData });
-        if (statusText !== 'Created' || data.status !== "success") {
+        if (statusText !== "Created" || data.status !== "success") {
           throw new Error(data.message);
         }
         this.tweets.unshift({
@@ -121,3 +124,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+h1 {
+  color: #1da1f2;
+}
+</style>

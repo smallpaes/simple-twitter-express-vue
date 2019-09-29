@@ -18,5 +18,11 @@ export default {
   },
   putTweet({ tweetId, tweet }) {
     return apiHelper.put(`/tweets/${tweetId}`, tweet)
-  }
+  },
+  getReplies({ tweet_id }) {
+    return apiHelper.get(`/tweets/${tweet_id}/replies`)
+  },
+  postReplies({ tweet_id, formData }) {
+    return apiHelper.post(`/tweets/${tweet_id}/replies`, formData )
+  },
 }
