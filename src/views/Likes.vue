@@ -62,6 +62,11 @@ export default {
         const tweets_data = data.likes.map(like => {
           return {
             ...like.Tweet,
+            User: {
+              id: data.user.id,
+              name: data.user.name,
+              avatar: data.user.avatar
+            },
             isLiked: like.isLiked
           };
         });
