@@ -9,7 +9,13 @@
       <div class="col-lg-9">
         <div class="row px-3">
           <h4 class="col-12 title">Following</h4>
-          <UserFollowCard v-for="user in followings" :key="user.id" :initial-user="user" />
+          <UserFollowCard
+            v-for="user in followings"
+            :key="user.id"
+            :initial-user="user"
+            @add-following="handleAfterFollow"
+            @remove-following="handleAfterUnfollow"
+          />
           <div class="col-12 shadow-sm p-3 rounded bg-white" v-if="followings.length < 1">
             <i class="fas fa-user mr-2"></i>No following users
           </div>
@@ -71,6 +77,12 @@ export default {
           title: "Cannot get following users, please try again later!"
         });
       }
+    },
+    handleAfterFollow() {
+      this.user.FollowingCount = Number(this.user.FollowingCount) + 1;
+    },
+    handleAfterUnfollow() {
+      this.user.FollowingCount = Number(this.user.FollowingCount) - 1;
     }
   }
 };

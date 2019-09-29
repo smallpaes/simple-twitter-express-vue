@@ -93,6 +93,11 @@ export default {
         }
         // notify parent component of the action
         this.$emit("after-delete", tweetId);
+        // alert success message
+        Toast.fire({
+          type: "success",
+          title: "Delete successfully!"
+        });
         // update process status
         this.isProcessing = false;
       } catch (error) {
