@@ -3,12 +3,13 @@
     <div class="test">
       <textarea
         @input="input"
-        v-model="description"
+        v-model.trim="description"
         minlength="1"
         maxlength="140"
         class="textarea col-12 p-3 mb-3 bg-light rounded"
         style="min-height: 9em;"
         placeholder="What's on your mind?"
+        required
       ></textarea>
     </div>
     <span class="countText">尚可填寫 {{countText}} 字</span>
@@ -19,6 +20,7 @@
 </template>
 
 <script>
+import { Toast } from "../utils/helpers";
 export default {
   props: {
     UserId: {
@@ -35,6 +37,14 @@ export default {
   },
   methods: {
     handleSubmit() {
+      const descriptionlength = this.description.split(" ").join("").length
+      if (descriptionlength === 0 || this.description > 140) {
+        this.description = ""
+        return Toast.fire({
+          type: "error",
+          title: "cannot empty or over 140 words."
+        });
+      }
       const formData = {
         UserId: this.UserId,
         description: this.description
