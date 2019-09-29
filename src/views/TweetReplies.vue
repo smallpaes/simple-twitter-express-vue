@@ -1,13 +1,10 @@
 <template>
   <Spinner v-if="isLoading" />
-  <section v-else class="px-5">
+  <section v-else class="container">
     <div class="row">
       <div class="col-lg-3">
         <!--Profile-->
-        <UserProfile
-          :initial-user="user"
-          :key="user.id"
-        />
+        <UserProfile :initial-user="user" :key="user.id" />
       </div>
       <div class="col-lg-9">
         <div class="row px-3">
@@ -66,9 +63,9 @@ export default {
     const tweet_id = this.$route.params.tweet_id;
     this.fetchUserTweet(tweet_id);
   },
-  beforeRouteUpdate (to, from, next) {
-    this.fetchUserTweet(to.params.tweet_id)
-    next()
+  beforeRouteUpdate(to, from, next) {
+    this.fetchUserTweet(to.params.tweet_id);
+    next();
   },
   methods: {
     async fetchUserTweet(tweet_id) {
@@ -138,7 +135,7 @@ export default {
           title: "cannot delete reply, please try again later"
         });
       }
-    },
+    }
   }
 };
 </script>

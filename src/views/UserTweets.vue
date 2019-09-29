@@ -1,6 +1,6 @@
 <template>
   <Spinner v-if="isLoading" />
-  <section v-else class="px-2">
+  <section v-else class="container">
     <div class="row">
       <div class="col-lg-3">
         <!--Profile-->

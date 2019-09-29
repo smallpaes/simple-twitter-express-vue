@@ -6,7 +6,7 @@
         <h5 class="mt-0">
           <router-link :to="{name: 'user-tweets', params: {id: user.id}}">@{{user.name}}</router-link>
         </h5>
-        <p>{{user.introduction}}</p>
+        <p>{{user.introduction | shortenIntroduction}}</p>
         <div class="text-right">
           <router-link
             class="btn"
@@ -48,6 +48,12 @@ export default {
     initialUser: {
       type: Object,
       required: true
+    }
+  },
+  filters: {
+    shortenIntroduction(introduction) {
+      if (!introduction) return;
+      return `${introduction.slice(0, 15)}...`;
     }
   },
   data() {
