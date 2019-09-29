@@ -9,7 +9,12 @@
       <div class="col-lg-9">
         <div class="row px-3">
           <h4 class="col-12 title">Tweet</h4>
-          <TweetCard :key="tweets.id" :initial-tweet="tweets" />
+          <TweetCard
+            :key="tweets.id"
+            :initial-tweet="tweets"
+            @after-remove-like="afterRemoveLike"
+            @after-add-like="afterAddLike"
+          />
           <h4 class="col-12 title">Replies</h4>
           <RepliesCard
             v-for="reply in replies"
@@ -134,6 +139,16 @@ export default {
           type: "error",
           title: "cannot delete reply, please try again later"
         });
+      }
+    },
+    afterRemoveLike() {
+      if (this.currentUser.id === this.user.id) {
+        this.user.LikeCount = Number(this.user.LikeCount) - 1;
+      }
+    },
+    afterAddLike() {
+      if (this.currentUser.id === this.user.id) {
+        this.user.LikeCount = Number(this.user.LikeCount) + 1;
       }
     }
   }
