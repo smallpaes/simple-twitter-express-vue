@@ -8,7 +8,6 @@
         maxlength="140"
         class="textarea col-12 mb-3 bg-light rounded"
         style="min-height: 9em;"
-        required
       ></textarea>
     </div>
     <div class="text-right pr-4">
@@ -18,7 +17,6 @@
 </template>
 
 <script>
-import { Toast } from "../utils/helpers";
 export default {
   props: {
     UserId: {
@@ -38,13 +36,6 @@ export default {
   },
   methods: {
     handleSubmit() {
-      const commentlength = this.comment.split(" ").join("").length
-      if (commentlength === 0) {
-        return Toast.fire({
-          type: "error",
-          title: "the comment cannot empty."
-        });
-      }
       const formData = {
         TweetId: this.TweetId,
         UserId: this.UserId,
