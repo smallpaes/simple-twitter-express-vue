@@ -89,10 +89,10 @@ export default {
         });
       }
     },
-    async afterRemoveLike() {
+    afterRemoveLike() {
       this.user.LikeCount = Number(this.user.LikeCount) - 1;
     },
-    async afterAddLike() {
+    afterAddLike() {
       this.user.LikeCount = Number(this.user.LikeCount) + 1;
     }
   }
