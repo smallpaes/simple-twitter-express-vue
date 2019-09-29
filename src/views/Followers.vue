@@ -31,17 +31,6 @@
 </template>
 
 <script>
-const dummyUser = {
-  id: 1,
-  name: "root",
-  avatar: "https://s3.amazonaws.com/uifaces/faces/twitter/lawlbwoy/128.jpg",
-  introduction: null,
-  TweetsCount: 5,
-  FollowerCount: 2,
-  FollowingCount: 0,
-  LikeCount: 0
-};
-
 import UserFollowCard from "../components/UserFollowCard";
 import userAPI from "../apis/users";
 import { Toast } from "../utils/helpers";
