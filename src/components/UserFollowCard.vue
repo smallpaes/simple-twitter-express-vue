@@ -4,12 +4,12 @@
       <img :src="user.avatar | placeholderImage" class="mr-3 rounded-circle" alt="avatar" />
       <div class="media-body p-2">
         <h5 class="mt-0">
-          <a href>@{{user.name}}</a>
+          <router-link :to="{name: 'user-tweets', params: {id: user.id}}">@{{user.name}}</router-link>
         </h5>
         <p>{{user.introduction}}</p>
         <div class="text-right">
           <router-link
-            class="btn btn-secondary"
+            class="btn"
             :to="{name:'user-edit',params:{id:user.id}}"
             v-if="user.id===currentUser.id"
           >Edit</router-link>
