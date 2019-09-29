@@ -123,7 +123,7 @@ export default {
             avatar: this.currentUser.avatar
           }
         });
-        this.tweets.RepliesCount += 1;
+        this.tweets.RepliesCount = Number(this.tweets.RepliesCount) + 1;
       } catch (error) {
         Toast.fire({
           type: "error",
@@ -134,6 +134,7 @@ export default {
     async afterDeleteReply(reply_id) {
       try {
         this.replies = this.replies.filter(reply => reply.id !== reply_id);
+        this.tweets.RepliesCount = Number(this.tweets.RepliesCount) - 1;
       } catch (error) {
         Toast.fire({
           type: "error",
