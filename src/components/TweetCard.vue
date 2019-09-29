@@ -125,6 +125,11 @@ export default {
           LikesCount: Number(this.tweet.LikesCount) + 1,
           isLiked: true
         };
+<<<<<<< HEAD
+=======
+        // notify parent
+        this.$emit("after-add-like");
+>>>>>>> 22629aa7d3cbb755a90e3baaa32fa45301f478b3
         this.isProcessing = false;
       } catch (error) {
         Toast.fire({
@@ -145,6 +150,8 @@ export default {
           LikesCount: Number(this.tweet.LikesCount) - 1,
           isLiked: false
         };
+        // notify parent
+        this.$emit("after-remove-like");
         this.isProcessing = false;
       } catch (error) {
         Toast.fire({

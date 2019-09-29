@@ -89,6 +89,8 @@ export default {
           ...this.user,
           isFollowing: true
         };
+        // send event to parent component
+        this.$emit("add-following");
         // update processing status
         this.isProcessing = false;
       } catch (error) {
@@ -116,6 +118,8 @@ export default {
           ...this.user,
           isFollowing: false
         };
+        // send event to parent component
+        this.$emit("remove-following");
         // update processing status
         this.isProcessing = false;
       } catch (error) {
