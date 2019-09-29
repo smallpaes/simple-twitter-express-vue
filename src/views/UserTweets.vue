@@ -29,7 +29,8 @@ import TweetCard from "../components/TweetCard";
 export default {
   components: {
     UserProfile,
-    TweetCard
+    TweetCard,
+    Spinner
   },
   data() {
     return {
