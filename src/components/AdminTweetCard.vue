@@ -20,10 +20,10 @@
             <span aria-hidden="true">&times;</span>
           </button>
           <p>{{tweet.description}}</p>
-          <a href class="action-btn">
+          <span>
             <i class="far fa-heart mr-1"></i>
             {{tweet.LikesCount}}
-          </a>
+          </span>
           <button
             class="btn btn-link action-btn"
             type="button"

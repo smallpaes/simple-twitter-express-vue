@@ -1,17 +1,18 @@
 <template>
   <Spinner v-if="isLoading" />
-  <section v-else class="container">
+  <section v-else class="px-2">
     <div class="row">
       <div class="col-lg-3">
         <!--Profile-->
         <UserProfile :initial-user="user" :key="user.id" />
       </div>
       <div class="col-lg-9">
+        <!-- Likes -->
         <div class="row px-3">
-          <h4 class="col-12 title">Tweets</h4>
+          <h4 class="col-12 title">Likes</h4>
           <TweetCard v-for="tweet in tweets" :key="tweet.id" :initial-tweet="tweet" />
           <div class="col-12 shadow-sm p-3 rounded bg-white" v-if="tweets.length < 1">
-            <i class="fas fa-user mr-2"></i>Haven't post any tweets yet
+            <i class="fas fa-user mr-2"></i>Haven't liked any tweets yet
           </div>
         </div>
       </div>
@@ -35,48 +36,46 @@ export default {
   data() {
     return {
       user: {},
-      tweets: [],
-      isLoading: false
+      isLoading: false,
+      tweets: []
     };
   },
   created() {
     const userId = this.$route.params.id;
-    this.fetchUserTweets(userId);
+    this.fetchUserLikes(userId);
   },
   beforeRouteUpdate(to, from, next) {
     const userId = to.params.id;
-    this.fetchUserTweets(userId);
+    this.fetchUserLikes(userId);
     next();
   },
   methods: {
-    async fetchUserTweets(userId) {
+    async fetchUserLikes(userId) {
       try {
         // update loading status
         this.isLoading = true;
-        const { statusText, data } = await userAPI.getUserTweets({ userId });
+        const { statusText, data } = await userAPI.getUserLikes({ userId });
         // error handling
         if (statusText !== "OK" || data.status !== "success") {
           throw new Error(statusText);
         }
         // update data
-        const raw_tweets = data.tweets.map(tweet => {
+        const tweets_data = data.likes.map(like => {
           return {
-            ...tweet,
+            ...like.Tweet,
             User: {
-              id: userId,
-              avatar: data.userData.avatar,
-              name: data.userData.name
-            }
+              id: data.user.id,
+              name: data.user.name,
+              avatar: data.user.avatar
+            },
+            isLiked: like.isLiked
           };
         });
-        this.tweets = raw_tweets;
-
+        this.tweets = tweets_data;
+        // modify userData so that UserProfile can apply nicely
         this.user = {
-          ...data.userData,
-          TweetsCount: data.tweetsCount,
-          FollowerCount: data.followersCount,
-          FollowingCount: data.followingsCount,
-          LikeCount: data.likesCount
+          ...data.user,
+          LikeCount: data.user.LikesCount
         };
         // update loading status
         this.isLoading = false;
