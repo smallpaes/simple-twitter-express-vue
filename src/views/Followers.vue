@@ -31,10 +31,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-
-=======
->>>>>>> 22629aa7d3cbb755a90e3baaa32fa45301f478b3
 import UserFollowCard from "../components/UserFollowCard";
 import userAPI from "../apis/users";
 import { Toast } from "../utils/helpers";
