@@ -4,7 +4,9 @@
       <img :src="user.avatar | placeholderImage" class="mr-3 rounded-circle" alt="avatar" />
       <div class="media-body p-2">
         <h5 class="mt-0">
-          <router-link :to="{name: 'user-tweets', params: {id: user.id}}">@{{user.name}}</router-link>
+          <router-link :to="{name: 'user-tweets', params: {id: user.id}}" class="userName">
+            <span class="pr-2">@{{user.name}}</span>
+          </router-link>
         </h5>
         <p>{{user.introduction | shortenIntroduction}}</p>
         <div class="text-right">
