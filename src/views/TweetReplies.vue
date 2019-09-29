@@ -7,8 +7,6 @@
         <UserProfile
           :initial-user="user"
           :key="user.id"
-          @after-add-followship="afterAddFollowship"
-          @after-remove-followship="afterRemoveFollowship"
         />
       </div>
       <div class="col-lg-9">
@@ -21,7 +19,6 @@
             :key="reply.id"
             :initial-reply="reply"
             @after-delete-reply="afterDeleteReply"
-            @after-put-reply="afterPutReply"
           />
           <CreateReply
             :tweet-id="tweets.id"
@@ -68,6 +65,10 @@ export default {
   created() {
     const tweet_id = this.$route.params.tweet_id;
     this.fetchUserTweet(tweet_id);
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.fetchUserTweet(to.params.tweet_id)
+    next()
   },
   methods: {
     async fetchUserTweet(tweet_id) {
@@ -127,22 +128,6 @@ export default {
           title: error.message || "Cannot post tweet, please try again."
         });
       }
-    },
-    //update userFollowing data after afterAddFollowship
-    async afterAddFollowship(payload) {
-      const { currentUser } = payload;
-      // push currentUser to followers
-      this.followers.push({
-        ...currentUser,
-        isFollowing: true
-      });
-    },
-    //update userFollowing data after afterRemoveFollowship
-    async afterRemoveFollowship(payload) {
-      const { currentUser } = payload;
-      this.followers = this.followers.filter(
-        follower => follower.id !== currentUser.id
-      );
     },
     async afterDeleteReply(reply_id) {
       try {

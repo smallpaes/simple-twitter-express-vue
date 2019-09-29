@@ -26,6 +26,7 @@
         <!-- delete button -->
         <button
           class="btn btn-danger"
+          :disabled="isProcessing"
           @click.stop.prevent="deleteReply(reply.id)"
         >Delete</button>
         <div class="edit my-3" v-if="reply.UserId === currentUser.id">
@@ -33,16 +34,22 @@
           <button
             class="btn btn-primary"
             v-show="!reply.isEditing"
+            :disabled="isProcessing"
             @click.stop.prevent="toggleIsEditing(reply.id)"
           >Edit</button>
           <!-- editing -->
           <button
             class="btn btn-info"
             v-show="reply.isEditing"
+            :disabled="isProcessing"
             @click.stop.prevent="updateReply(reply.id, reply.comment)"
           >Save</button>
         </div>
-        <button v-show="reply.isEditing " class="cancel btn btn-warning" @click="handleCancel(reply.id)">Cancel</button>
+        <button
+          class="cancel btn btn-warning"
+          v-show="reply.isEditing"
+          @click="handleCancel(reply.id)"
+        >Cancel</button>
       </div>
     </div>
   </div>
@@ -52,6 +59,7 @@
 import { placeholderImageCreator } from "../utils/mixins";
 import replyApi from "../apis/reply";
 import moment from "moment";
+import { Toast } from "../utils/helpers";
 import { mapState } from "vuex";
 
 export default {
@@ -78,6 +86,7 @@ export default {
   },
   methods: {
     async deleteReply(reply_id) {
+      this.isProcessing = true
       const { data, statusText } = await replyApi.deleteReply({ reply_id });
         if (statusText !== "Accepted" || data.status !== "success") {
           throw new Error(statusText);
@@ -85,12 +94,15 @@ export default {
       this.$emit("after-delete-reply", reply_id);
     },
     toggleIsEditing(reply_id) {
+      this.isProcessing = true
       if (this.reply.id !== reply_id) return this.reply;
       this.reply.commentCached = this.reply.comment;
       this.reply.isEditing = !this.reply.isEditing;
+      this.isProcessing = false
     },
     async updateReply(id, comment) {
       try {
+        this.isProcessing = true
         this.toggleIsEditing(id);
         const { data, statusText } = await replyApi.putReply({
           reply_id: id,
@@ -99,7 +111,7 @@ export default {
         if (statusText !== "Created" || data.status !== "success") {
           throw new Error(statusText);
         }
-
+        this.isProcessing = false
       } catch (error) {
         Toast.fire({
           type: "error",
