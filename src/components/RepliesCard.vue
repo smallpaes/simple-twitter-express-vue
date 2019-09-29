@@ -13,11 +13,36 @@
           </router-link>
           <span>{{ reply.createdAt | date }}</span>
         </div>
-        <p class="context">{{reply.comment}}</p>
+        <!-- reply comment -->
+        <p v-show="!reply.isEditing">{{reply.comment}}</p>
+        <textarea
+          type="text"
+          v-show="reply.isEditing"
+          v-model="reply.comment"
+          class="textarea col-12 p-3 bg-light rounded"
+        ></textarea>
       </div>
-      <div class="button">
-        <button class="btn btn-primary">Edit</button>
-        <button class="btn btn-danger">Delete</button>
+      <div v-if="reply.UserId === currentUser.id || currentUser.role === 'Admin'" class="button">
+        <!-- delete button -->
+        <button
+          class="btn btn-danger"
+          @click.stop.prevent="deleteReply(reply.id)"
+        >Delete</button>
+        <div class="edit my-3" v-if="reply.UserId === currentUser.id">
+          <!-- edit button -->
+          <button
+            class="btn btn-primary"
+            v-show="!reply.isEditing"
+            @click.stop.prevent="toggleIsEditing(reply.id)"
+          >Edit</button>
+          <!-- editing -->
+          <button
+            class="btn btn-info"
+            v-show="reply.isEditing"
+            @click.stop.prevent="updateReply(reply.id, reply.comment)"
+          >Save</button>
+        </div>
+        <button v-show="reply.isEditing " class="cancel btn btn-warning" @click="handleCancel(reply.id)">Cancel</button>
       </div>
     </div>
   </div>
@@ -25,8 +50,9 @@
 
 <script>
 import { placeholderImageCreator } from "../utils/mixins";
+import replyApi from "../apis/reply";
 import moment from "moment";
-import { Toast } from "../utils/helpers";
+import { mapState } from "vuex";
 
 export default {
   mixins: [placeholderImageCreator],
@@ -35,6 +61,9 @@ export default {
       type: Object,
       require: true
     }
+  },
+  computed: {
+    ...mapState(["currentUser"])
   },
   filters: {
     date(datetime) {
@@ -46,6 +75,43 @@ export default {
       reply: this.initialReply,
       isProcessing: false
     };
+  },
+  methods: {
+    async deleteReply(reply_id) {
+      const { data, statusText } = await replyApi.deleteReply({ reply_id });
+        if (statusText !== "Accepted" || data.status !== "success") {
+          throw new Error(statusText);
+        }
+      this.$emit("after-delete-reply", reply_id);
+    },
+    toggleIsEditing(reply_id) {
+      if (this.reply.id !== reply_id) return this.reply;
+      this.reply.commentCached = this.reply.comment;
+      this.reply.isEditing = !this.reply.isEditing;
+    },
+    async updateReply(id, comment) {
+      try {
+        this.toggleIsEditing(id);
+        const { data, statusText } = await replyApi.putReply({
+          reply_id: id,
+          reply: { comment: comment }
+        });
+        if (statusText !== "Created" || data.status !== "success") {
+          throw new Error(statusText);
+        }
+
+      } catch (error) {
+        Toast.fire({
+          type: "error",
+          title: "cannot edit reply, please try again later"
+        });
+      }
+    },
+    handleCancel(reply_id) {
+      if (this.reply.id !== reply_id) return this.reply;
+      this.reply.comment = this.reply.commentCached;
+      this.toggleIsEditing(reply_id);
+    }
   }
 };
 </script>
@@ -56,8 +122,7 @@ export default {
   padding: 20px 15px 15px;
   margin-bottom: 10px;
 }
-.avatar,
-.button {
+.avatar {
   flex-basis: 0px;
   flex-grow: 1;
   margin: auto;
@@ -65,6 +130,11 @@ export default {
 }
 img {
   max-width: 128px;
+}
+.button {
+  flex-basis: 0px;
+  flex-grow: 1;
+  text-align: end;
 }
 .content {
   flex-basis: 0px;
@@ -84,5 +154,10 @@ a.replies {
 }
 a.replies:hover {
   color: #006dbf;
+}
+.cancel {
+  /* display: block; */
+  user-select: none;
+  cursor: pointer;
 }
 </style>

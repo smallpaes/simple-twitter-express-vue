@@ -19,6 +19,8 @@
             v-for="reply in replies"
             :key="reply.id"
             :initial-reply="reply"
+            @after-delete-reply="afterDeleteReply"
+            @after-put-reply="afterPutReply"
           />
           <CreateReply
             :tweet-id="tweets.id"
@@ -26,20 +28,20 @@
             @after-create-reply="afterCreateReply"
             class="col-12"
           />
-          </div>
         </div>
       </div>
+    </div>
   </section>
 </template>
 
 <script>
-import TweetCard from '../components/TweetCard';
-import tweetApi from '../apis/tweet';
-import UserProfile from '../components/UserProfile';
-import RepliesCard from '../components/RepliesCard';
-import CreateReply from '../components/CreatReply';
-import Spinner from '../components/Spinner';
-import { Toast } from '../utils/helpers';
+import TweetCard from "../components/TweetCard";
+import tweetApi from "../apis/tweet";
+import UserProfile from "../components/UserProfile";
+import RepliesCard from "../components/RepliesCard";
+import CreateReply from "../components/CreatReply";
+import Spinner from "../components/Spinner";
+import { Toast } from "../utils/helpers";
 import { mapState } from "vuex";
 
 export default {
@@ -60,11 +62,11 @@ export default {
       followings: [],
       user: {},
       isLoading: false
-    }
+    };
   },
   created() {
-    const tweet_id = this.$route.params.tweet_id
-    this.fetchUserTweet(tweet_id)
+    const tweet_id = this.$route.params.tweet_id;
+    this.fetchUserTweet(tweet_id);
   },
   methods: {
     async fetchUserTweet(tweet_id) {
@@ -79,7 +81,10 @@ export default {
         // update data
         this.tweets = data.tweetData;
         this.user = data.userData;
-        this.replies = data.Replies;
+        this.replies = data.Replies.map(reply => ({
+          ...reply,
+          isEditing: false
+        }));
         // update loading status
         this.isLoading = false;
       } catch (error) {
@@ -94,8 +99,11 @@ export default {
     // update replies after create reply
     async afterCreateReply(formData) {
       try {
-        const { data, statusText } = await tweetApi.postReplies({ tweet_id: formData.TweetId, formData })
-        if (statusText !== 'Created' || data.status !== "success") {
+        const { data, statusText } = await tweetApi.postReplies({
+          tweet_id: formData.TweetId,
+          formData
+        });
+        if (statusText !== "Created" || data.status !== "success") {
           throw new Error(data.message);
         }
         this.replies.unshift({
@@ -103,13 +111,15 @@ export default {
           comment: formData.comment,
           TweetId: formData.TweetId,
           UserId: formData.UserId,
-          createdAt:  new Date(),
+          createdAt: new Date(),
+          isEditing: false,
           User: {
             id: this.currentUser.id,
             name: this.currentUser.name,
             avatar: this.currentUser.avatar
-          },
+          }
         });
+        this.tweets.RepliesCount += 1;
       } catch (error) {
         Toast.fire({
           type: "error",
@@ -132,7 +142,17 @@ export default {
       this.followers = this.followers.filter(
         follower => follower.id !== currentUser.id
       );
-    }
+    },
+    async afterDeleteReply(reply_id) {
+      try {
+        this.replies = this.replies.filter(reply => reply.id !== reply_id);
+      } catch (error) {
+        Toast.fire({
+          type: "error",
+          title: "cannot delete reply, please try again later"
+        });
+      }
+    },
   }
-}
+};
 </script>
