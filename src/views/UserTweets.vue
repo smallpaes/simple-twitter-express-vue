@@ -9,7 +9,13 @@
       <div class="col-lg-9">
         <div class="row px-3">
           <h4 class="col-12 title">Tweets</h4>
-          <TweetCard v-for="tweet in tweets" :key="tweet.id" :initial-tweet="tweet" />
+          <TweetCard
+            v-for="tweet in tweets"
+            :key="tweet.id"
+            :initial-tweet="tweet"
+            @after-remove-like="afterRemoveLike"
+            @after-add-like="afterAddLike"
+          />
           <div class="col-12 shadow-sm p-3 rounded bg-white" v-if="tweets.length < 1">
             <i class="fas fa-user mr-2"></i>Haven't post any tweets yet
           </div>
@@ -25,6 +31,7 @@ import { Toast } from "../utils/helpers";
 import Spinner from "../components/Spinner";
 import userAPI from "../apis/users";
 import TweetCard from "../components/TweetCard";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -38,6 +45,9 @@ export default {
       tweets: [],
       isLoading: false
     };
+  },
+  computed: {
+    ...mapState(["currentUser"])
   },
   created() {
     const userId = this.$route.params.id;
@@ -87,6 +97,16 @@ export default {
           type: "error",
           title: "Cannot get  user tweets, please try again later!"
         });
+      }
+    },
+    afterRemoveLike() {
+      if (this.currentUser.id === this.user.id) {
+        this.user.LikeCount = Number(this.user.LikeCount) - 1;
+      }
+    },
+    afterAddLike() {
+      if (this.currentUser.id === this.user.id) {
+        this.user.LikeCount = Number(this.user.LikeCount) + 1;
       }
     }
   }

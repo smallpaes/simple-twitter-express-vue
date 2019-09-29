@@ -36,6 +36,7 @@ import userAPI from "../apis/users";
 import { Toast } from "../utils/helpers";
 import Spinner from "../components/Spinner";
 import UserProfile from "../components/UserProfile";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -49,6 +50,9 @@ export default {
       user: {},
       isLoading: false
     };
+  },
+  computed: {
+    ...mapState(["currentUser"])
   },
   created() {
     const userId = this.$route.params.id;
@@ -100,10 +104,14 @@ export default {
       );
     },
     handleAfterFollow() {
-      this.user.FollowingCount = Number(this.user.FollowingCount) + 1;
+      if (this.currentUser.id === this.user.id) {
+        this.user.FollowingCount = Number(this.user.FollowingCount) + 1;
+      }
     },
     handleAfterUnfollow() {
-      this.user.FollowingCount = Number(this.user.FollowingCount) - 1;
+      if (this.currentUser.id === this.user.id) {
+        this.user.FollowingCount = Number(this.user.FollowingCount) - 1;
+      }
     }
   }
 };

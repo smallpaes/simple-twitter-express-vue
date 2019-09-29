@@ -32,6 +32,7 @@ import { Toast } from "../utils/helpers";
 import Spinner from "../components/Spinner";
 import userAPI from "../apis/users";
 import TweetCard from "../components/TweetCard";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -45,6 +46,9 @@ export default {
       isLoading: false,
       tweets: []
     };
+  },
+  computed: {
+    ...mapState(["currentUser"])
   },
   created() {
     const userId = this.$route.params.id;
@@ -90,10 +94,14 @@ export default {
       }
     },
     afterRemoveLike() {
-      this.user.LikeCount = Number(this.user.LikeCount) - 1;
+      if (this.currentUser.id === this.user.id) {
+        this.user.LikeCount = Number(this.user.LikeCount) - 1;
+      }
     },
     afterAddLike() {
-      this.user.LikeCount = Number(this.user.LikeCount) + 1;
+      if (this.currentUser.id === this.user.id) {
+        this.user.LikeCount = Number(this.user.LikeCount) + 1;
+      }
     }
   }
 };
