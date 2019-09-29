@@ -125,6 +125,8 @@ export default {
           LikesCount: Number(this.tweet.LikesCount) + 1,
           isLiked: true
         };
+        // notify parent
+        this.$emit("after-add-like");
         this.isProcessing = false;
       } catch (error) {
         Toast.fire({
