@@ -64,7 +64,17 @@ export default {
 </script>
 
 <style scoped>
-.admin-nav a:nth-of-type(2) {
+.admin-nav a[data-v-412a3d9a]:first-of-type {
+  color: #4c4c4c;
+}
+
+.admin-nav a[data-v-412a3d9a]:hover,
+.admin-nav a[data-v-412a3d9a]:nth-of-type(2):hover {
+  color: #1da1f2;
+  text-decoration: none;
+}
+
+.admin-nav a[data-v-412a3d9a]:nth-of-type(2) {
   color: rgb(0, 132, 180);
 }
 </style>
