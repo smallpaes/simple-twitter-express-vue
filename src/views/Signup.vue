@@ -100,7 +100,7 @@ export default {
         });
         // error handling
         if (statusText !== "OK" || data.status !== "success") {
-          throw new Error(statusText);
+          throw new Error(data.message);
         }
         // redirect to login page
         this.$router.push({ name: "log-in" });
@@ -111,7 +111,7 @@ export default {
         this.isProcessing = false;
         Toast.fire({
           type: "error",
-          title: "Sign up failed, please try again later"
+          title: error.message || "Sign up failed, please try again later"
         });
       }
     }
