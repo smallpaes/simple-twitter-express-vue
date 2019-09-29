@@ -15,5 +15,8 @@ export default {
   },
   postEditUser({ userId, formData }) {
     return apiHelper.post(`/users/${userId}/edit`, formData)
+  },
+  getUserTweets({ userId }) {
+    return apiHelper.get(`/users/${userId}/tweets`)
   }
 }

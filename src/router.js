@@ -60,6 +60,11 @@ const router = new Router({
       component: () => import('./views/UserEdit.vue')
     },
     {
+      path: '/users/:id/tweets',
+      name: 'user-tweets',
+      component: () => import('./views/UserTweets.vue')
+    },
+    {
       path: '/admin/users',
       name: 'admin-users',
       component: () => import('./views/AdminUsers.vue'),
