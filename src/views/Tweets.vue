@@ -10,7 +10,12 @@
         <br />
         <br />
         <!-- tweets-->
-        <TweetCard v-for="tweet in tweets" :key="tweet.id" :initial-tweet="tweet" />
+        <TweetCard
+          v-for="tweet in tweets"
+          :key="tweet.id"
+          :initial-tweet="tweet"
+          @after-delete-tweet="afterDeleteTweet"
+        />
       </div>
       <div class="col-lg-5 col-xl-4">
         <!-- top 10 users -->
@@ -64,7 +69,10 @@ export default {
         if (statusText !== "Accepted" || data.status !== "success") {
           throw new Error(data.message);
         }
-        this.tweets = data.tweets;
+        this.tweets = data.tweets.map(tweet => ({
+          ...tweet,
+          isEditing: false
+        }));
         this.popularUsersData = data.popularUsersData;
         this.isLoading = false;
       } catch (error) {
@@ -93,7 +101,8 @@ export default {
             name: this.currentUser.name,
             avatar: this.currentUser.avatar
           },
-          isLiked: false
+          isLiked: false,
+          isEditing: false,
         });
       } catch (error) {
         Toast.fire({
@@ -101,7 +110,17 @@ export default {
           title: error.message || "Cannot get tweets, please try again."
         });
       }
-    }
+    },
+    async afterDeleteTweet(reply_id) {
+      try {
+        this.tweets = this.tweets.filter(tweet => tweet.id !== reply_id);
+      } catch (error) {
+        Toast.fire({
+          type: "error",
+          title: "cannot delete reply, please try again later"
+        });
+      }
+    },
   }
 };
 </script>

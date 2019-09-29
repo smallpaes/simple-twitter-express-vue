@@ -13,6 +13,12 @@ export default {
   removeLike ({ tweetId }) {
     return apiHelper.post(`/tweets/${tweetId}/unlike`)
   },
+  deleteTweet({ tweetId }) {
+    return apiHelper.delete(`/tweets/${tweetId}`)
+  },
+  putTweet({ tweetId, tweet }) {
+    return apiHelper.put(`/tweets/${tweetId}`, tweet)
+  },
   getReplies({ tweet_id }) {
     return apiHelper.get(`/tweets/${tweet_id}/replies`)
   },

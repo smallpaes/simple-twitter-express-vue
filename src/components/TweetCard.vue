@@ -13,7 +13,13 @@
           </router-link>
           <span>{{ tweet.createdAt | date }}</span>
         </div>
-        <p class="context">{{tweet.description}}</p>
+        <p v-show="!tweet.isEditing" class="context">{{tweet.description}}</p>
+        <textarea
+          type="text"
+          v-show="tweet.isEditing"
+          v-model="tweet.description"
+          class="textarea col-12 p-3 bg-light rounded"
+        ></textarea>
         <div class="mt-4">
           <router-link
             :to="{name: 'tweet-replies', params: {tweet_id: tweet.id}}"
@@ -44,6 +50,35 @@
           </button>
         </div>
       </div>
+      <div v-if="tweet.UserId === currentUser.id || currentUser.role === 'Admin'" class="button">
+        <!-- delete button -->
+        <button
+          class="btn btn-danger"
+          :disabled="isProcessing"
+          @click.stop.prevent="deleteTweet(tweet.id)"
+        >Delete</button>
+        <div class="edit my-3" v-if="tweet.User.id === currentUser.id">
+          <!-- edit button -->
+          <button
+            class="btn btn-primary"
+            v-show="!tweet.isEditing"
+            :disabled="isProcessing"
+            @click.stop.prevent="toggleIsEditing(tweet.id)"
+          >Edit</button>
+          <!-- editing -->
+          <button
+            class="btn btn-info"
+            v-show="tweet.isEditing"
+            :disabled="isProcessing"
+            @click.stop.prevent="putTweet(tweet.id, tweet.description)"
+          >Save</button>
+        </div>
+        <button
+          class="cancel btn btn-warning"
+          v-show="tweet.isEditing"
+          @click="handleCancel(tweet.id)"
+        >Cancel</button>
+      </div>
     </div>
   </div>
 </template>
@@ -53,6 +88,7 @@ import tweetApi from "../apis/tweet";
 import { placeholderImageCreator } from "../utils/mixins";
 import moment from "moment";
 import { Toast } from "../utils/helpers";
+import { mapState } from "vuex";
 
 export default {
   mixins: [placeholderImageCreator],
@@ -61,6 +97,9 @@ export default {
       type: Object,
       require: true
     }
+  },
+  computed: {
+    ...mapState(["currentUser"])
   },
   filters: {
     date(datetime) {
@@ -86,8 +125,6 @@ export default {
           LikesCount: Number(this.tweet.LikesCount) + 1,
           isLiked: true
         };
-        // notify parent
-        this.$emit("after-add-like");
         this.isProcessing = false;
       } catch (error) {
         Toast.fire({
@@ -117,6 +154,45 @@ export default {
           title: "Cannot unLike the user, please try again later"
         });
       }
+    },
+    toggleIsEditing(tweetId) {
+      this.isProcessing = true;
+      if (this.tweet.id !== tweetId) return this.tweet;
+      this.tweet.descriptionCached = this.tweet.description;
+      this.tweet.isEditing = !this.tweet.isEditing;
+      this.isProcessing = false;
+    },
+    async putTweet(id, description) {
+      try {
+        this.isProcessing = true;
+        this.toggleIsEditing(id);
+        const { data, statusText } = await tweetApi.putTweet({
+          tweetId: id,
+          tweet: { description: description }
+        });
+        if (statusText !== "Accepted" || data.status !== "success") {
+          throw new Error(statusText);
+        }
+        this.isProcessing = false;
+      } catch (error) {
+        Toast.fire({
+          type: "error",
+          title: "cannot edit tweet, please try again later"
+        });
+      }
+    },
+    handleCancel(tweetId) {
+      if (this.tweet.id !== tweetId) return this.tweet;
+      this.tweet.description = this.tweet.descriptionCached;
+      this.toggleIsEditing(tweetId);
+    },
+    async deleteTweet(tweetId) {
+      this.isProcessing = true;
+      const { data, statusText } = await tweetApi.deleteTweet({ tweetId });
+      if (statusText !== "OK" || data.status !== "success") {
+        throw new Error(statusText);
+      }
+      this.$emit("after-delete-tweet", tweetId);
     }
   }
 };
@@ -157,7 +233,11 @@ a.replies {
 a.replies:hover {
   color: #006dbf;
 }
-
+.button {
+  flex-basis: 0px;
+  flex-grow: 1;
+  text-align: end;
+}
 .unlike {
   color: #777;
   transition: all 0.5s;
