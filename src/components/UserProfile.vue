@@ -56,6 +56,14 @@ export default {
       user: this.initialUser
     };
   },
+  watch: {
+    initialUser(user) {
+      this.user = {
+        ...this.user,
+        ...user
+      };
+    }
+  },
   computed: {
     ...mapState(["currentUser"])
   },

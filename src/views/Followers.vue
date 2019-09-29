@@ -14,7 +14,13 @@
       <div class="col-lg-9">
         <div class="row px-3">
           <h4 class="col-12 title">Follower</h4>
-          <UserFollowCard v-for="user in followers" :key="user.id" :initial-user="user" />
+          <UserFollowCard
+            v-for="user in followers"
+            :key="user.id"
+            :initial-user="user"
+            @add-following="handleAfterFollow"
+            @remove-following="handleAfterUnfollow"
+          />
           <div class="col-12 shadow-sm p-3 rounded bg-white" v-if="followers.length < 1">
             <i class="fas fa-user mr-2"></i>No followers
           </div>
@@ -103,6 +109,12 @@ export default {
       this.followers = this.followers.filter(
         follower => follower.id !== currentUser.id
       );
+    },
+    handleAfterFollow() {
+      this.user.FollowingCount = Number(this.user.FollowingCount) + 1;
+    },
+    handleAfterUnfollow() {
+      this.user.FollowingCount = Number(this.user.FollowingCount) - 1;
     }
   }
 };
