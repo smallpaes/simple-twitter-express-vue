@@ -8,12 +8,16 @@
         </h5>
         <p>{{user.introduction}}</p>
         <div class="text-right">
-          <a href v-if="user.id === currentUser.id" class="btn" role="button">Edit</a>
+          <router-link
+            class="btn btn-secondary"
+            :to="{name:'user-edit',params:{id:user.id}}"
+            v-if="user.id===currentUser.id"
+          >Edit</router-link>
           <template v-else>
             <button
               class="btn"
               :disabled="isProcessing"
-              v-if="user.isFollowed"
+              v-if="user.isFollowing"
               @click.stop.prevent="removeFollowing(user.id)"
             >Unfollow</button>
             <button

@@ -16,7 +16,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto align-items-center">
         <li class="nav-item avatar" v-if="isAuthenticated">
-          <a href class="nav-link p-0">
+          <a href class="nav-link py-2 p-md-0">
             <span class="d-inline d-md-none">Profile</span>
             <img
               :src="currentUser.avatar | placeholderImage"
@@ -26,8 +26,7 @@
           </a>
         </li>
         <li v-if="currentUser.role ==='Admin'" class="nav-item">
-          <!--Must be changed into router link-->
-          <a class="nav-link" href="#">Admin</a>
+          <router-link :to="{name: 'admin-tweets'}" class="nav-link">Admin</router-link>
         </li>
         <button
           v-if="isAuthenticated"
@@ -73,6 +72,10 @@ nav {
 
 .navbar-dark .navbar-toggler {
   border-color: transparent;
+}
+
+li a:hover {
+  background-color: transparent;
 }
 
 .avatar img {

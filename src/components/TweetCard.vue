@@ -15,21 +15,33 @@
         </div>
         <p class="context">{{tweet.description}}</p>
         <div class="mt-4">
-          <router-link :to="{name: 'tweet-replies', params: {id: tweet.id}}" class="mr-3 replies">
-            <span><i class="far fa-comment-alt"></i> Reply ({{tweet.RepliesCount}})</span>
+          <router-link
+            :to="{name: 'tweet-replies', params: {tweet_id: tweet.id}}"
+            class="mr-3 replies"
+          >
+            <span>
+              <i class="far fa-comment-alt"></i>
+              Reply ({{tweet.RepliesCount}})
+            </span>
           </router-link>
           <button
             class="btn like"
             v-if="tweet.isLiked"
             :disabled="isProcessing"
             @click.stop.prevent="removeLike(tweet.id)"
-          ><i class="fas fa-heart"></i> Like ({{tweet.LikesCount}})</button>
+          >
+            <i class="fas fa-heart"></i>
+            Like ({{tweet.LikesCount}})
+          </button>
           <button
             class="btn unlike"
             v-else
             :disabled="isProcessing"
             @click.stop.prevent="addLike(tweet.id)"
-          ><i class="far fa-heart"></i> Like ({{tweet.LikesCount}})</button>
+          >
+            <i class="far fa-heart"></i>
+            Like ({{tweet.LikesCount}})
+          </button>
         </div>
       </div>
     </div>
@@ -42,7 +54,7 @@ import { placeholderImageCreator } from "../utils/mixins";
 import moment from "moment";
 import { Toast } from "../utils/helpers";
 
-export default {  
+export default {
   mixins: [placeholderImageCreator],
   props: {
     initialTweet: {
@@ -66,7 +78,7 @@ export default {
       try {
         this.isProcessing = true;
         const { data, statusText } = await tweetApi.addLike({ tweetId });
-        if (statusText !== 'Created' || data.status !== 'success') {
+        if (statusText !== "Created" || data.status !== "success") {
           throw new Error(statusText);
         }
         this.tweet = {
@@ -74,7 +86,7 @@ export default {
           LikesCount: Number(this.tweet.LikesCount) + 1,
           isLiked: true
         };
-        console.log(this.tweet)
+        console.log(this.tweet);
         this.isProcessing = false;
       } catch (error) {
         Toast.fire({
@@ -87,7 +99,7 @@ export default {
       try {
         this.isProcessing = true;
         const { data, statusText } = await tweetApi.removeLike({ tweetId });
-        if (statusText !== 'OK' || data.status !== 'success') {
+        if (statusText !== "OK" || data.status !== "success") {
           throw new Error(statusText);
         }
         this.tweet = {
@@ -126,17 +138,21 @@ img {
   flex-basis: 0px;
   flex-grow: 4;
 }
-.username, .context, .replies, .like, .unlike {
+.username,
+.context,
+.replies,
+.like,
+.unlike {
   padding: 10px 1.1rem;
   font-size: 1.1rem;
 }
 
 a.replies {
-  color:#1da1f2;
+  color: #1da1f2;
   transition: all 0.5s;
 }
 a.replies:hover {
-  color:#006dbf;
+  color: #006dbf;
 }
 
 .unlike {
