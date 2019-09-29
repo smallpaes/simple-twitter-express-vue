@@ -37,9 +37,9 @@ export default {
   },
   methods: {
     handleSubmit() {
-      const descriptionlength = this.description.split(" ").join("").length
-      if (descriptionlength === 0 || this.description > 140) {
-        this.description = ""
+      const descriptionlength = this.description.split(" ").join("").length;
+      if (descriptionlength === 0 || this.description.length > 140) {
+        this.description = "";
         return Toast.fire({
           type: "error",
           title: "cannot empty or over 140 words."
@@ -57,8 +57,8 @@ export default {
       this.countText = 140 - e.target.value.length;
       if (e.target.value.length > 0) {
         this.isProcessing = false;
-        e.target.style.cssText = `min-height: 9em;`
-        e.target.style.cssText = `min-height: ${e.target.scrollHeight}px;`
+        e.target.style.cssText = `min-height: 9em;`;
+        e.target.style.cssText = `min-height: ${e.target.scrollHeight}px;`;
       } else {
         this.isProcessing = true;
       }
