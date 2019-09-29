@@ -10,7 +10,13 @@
         <!-- Likes -->
         <div class="row px-3">
           <h4 class="col-12 title">Likes</h4>
-          <TweetCard v-for="tweet in tweets" :key="tweet.id" :initial-tweet="tweet" />
+          <TweetCard
+            v-for="tweet in tweets"
+            :key="tweet.id"
+            :initial-tweet="tweet"
+            @after-remove-like="afterRemoveLike"
+            @after-add-like="afterAddLike"
+          />
           <div class="col-12 shadow-sm p-3 rounded bg-white" v-if="tweets.length < 1">
             <i class="fas fa-user mr-2"></i>Haven't liked any tweets yet
           </div>
@@ -63,11 +69,6 @@ export default {
         const tweets_data = data.likes.map(like => {
           return {
             ...like.Tweet,
-            User: {
-              id: data.user.id,
-              name: data.user.name,
-              avatar: data.user.avatar
-            },
             isLiked: like.isLiked
           };
         });
@@ -87,6 +88,12 @@ export default {
           title: "Cannot get  user tweets, please try again later!"
         });
       }
+    },
+    afterRemoveLike() {
+      this.user.LikeCount = Number(this.user.LikeCount) - 1;
+    },
+    afterAddLike() {
+      this.user.LikeCount = Number(this.user.LikeCount) + 1;
     }
   }
 };
