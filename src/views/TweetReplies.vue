@@ -14,6 +14,7 @@
             :initial-tweet="tweets"
             @after-remove-like="afterRemoveLike"
             @after-add-like="afterAddLike"
+            @after-delete-tweet="afterDeleteTweet"
           />
           <h4 class="col-12 title">Replies</h4>
           <RepliesCard
@@ -29,6 +30,9 @@
             class="col-12"
           />
         </div>
+      </div>
+      <div class="col-12 shadow-sm p-3 rounded bg-white" v-if="tweets.length < 1">
+        <i class="fas fa-user mr-2"></i>Haven't post any tweets yet
       </div>
     </div>
   </section>
@@ -151,6 +155,9 @@ export default {
       if (this.currentUser.id === this.user.id) {
         this.user.LikeCount = Number(this.user.LikeCount) + 1;
       }
+    },
+    afterDeleteTweet() {
+      this.$router.push({path: `/users/${this.tweets.UserId}/tweets`})
     }
   }
 };
