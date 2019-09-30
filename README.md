@@ -4,6 +4,7 @@ A simple twitter project built with Vue and Vuex using own [Twitter API](https:/
 <p>&nbsp;</p>
 
 ## Project First Look
+![Simple Twitter Project First Look](project-first-look.gif)
 
 <p>&nbsp;</p>
 
