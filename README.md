@@ -57,6 +57,6 @@ ___
 
 
 ## Authors
-[Mike Huang](https://github.com/smallpaes)
-[DannyWang](https://github.com/windate3411)
-[Tao He](https://github.com/cTaohe)
+- [Mike Huang](https://github.com/smallpaes)
+- [DannyWang](https://github.com/windate3411)
+- [Tao He](https://github.com/cTaohe)
