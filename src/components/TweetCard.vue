@@ -11,16 +11,31 @@
           <router-link :to="{name: 'user-tweets', params: {id: tweet.User.id}}" class="userName">
             <span class="pr-2">@{{tweet.User.name}},</span>
           </router-link>
-          <span>{{ tweet.createdAt | date }}</span>
+          <span class="text-muted">{{ tweet.createdAt | date }}</span>
         </div>
         <p v-show="!tweet.isEditing" class="context">{{tweet.description}}</p>
         <textarea
           type="text"
           v-show="tweet.isEditing"
           v-model="tweet.description"
-          class="textarea col-12 p-3 bg-light rounded"
+          class="textarea col-12 ml-3 p-3 bg-light rounded"
         ></textarea>
-        <div class="mt-4">
+        <div class="d-flex justify-content-end">
+          <!-- editing -->
+          <button
+            class="cancel-btn btn mr-2"
+            v-if="tweet.isEditing"
+            :disabled="isProcessing"
+            @click="handleCancel(tweet.id)"
+          >Cancel</button>
+          <button
+            class="btn save-btn"
+            v-if="tweet.isEditing"
+            :disabled="isProcessing"
+            @click.stop.prevent="putTweet(tweet.id, tweet.description)"
+          >Save</button>
+        </div>
+        <div class="mt-1">
           <router-link
             :to="{name: 'tweet-replies', params: {tweet_id: tweet.id}}"
             class="mr-3 replies"
@@ -50,34 +65,31 @@
           </button>
         </div>
       </div>
-      <div v-if="tweet.UserId === currentUser.id" class="button">
-        <!-- delete button -->
+      <div v-if="tweet.UserId === currentUser.id" class="button dropdown">
         <button
-          class="btn btn-danger"
-          :disabled="isProcessing"
-          @click.stop.prevent="deleteTweet(tweet.id)"
-        >Delete</button>
-        <div class="edit my-3">
+          class="btn btn-link dropdown-toggle"
+          type="button"
+          id="tweetActionsDropdwonMenu"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        ></button>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="tweetActionsDropdwonMenu">
+          <!-- delete button -->
+          <button
+            class="dropdown-item"
+            type="button"
+            :disabled="isProcessing"
+            @click="deleteTweet(tweet.id)"
+          >Delete</button>
           <!-- edit button -->
           <button
-            class="btn btn-primary"
-            v-show="!tweet.isEditing"
-            :disabled="isProcessing"
-            @click.stop.prevent="toggleIsEditing(tweet.id)"
+            class="dropdown-item"
+            type="button"
+            :disabled="isProcessing || tweet.isEditing"
+            @click="toggleIsEditing(tweet.id)"
           >Edit</button>
-          <!-- editing -->
-          <button
-            class="btn btn-info"
-            v-show="tweet.isEditing"
-            :disabled="isProcessing"
-            @click.stop.prevent="putTweet(tweet.id, tweet.description)"
-          >Save</button>
         </div>
-        <button
-          class="cancel btn btn-warning"
-          v-show="tweet.isEditing"
-          @click="handleCancel(tweet.id)"
-        >Cancel</button>
       </div>
     </div>
   </div>
@@ -167,7 +179,6 @@ export default {
     async putTweet(id, description) {
       try {
         this.isProcessing = true;
-        this.toggleIsEditing(id);
         const { data, statusText } = await tweetApi.putTweet({
           tweetId: id,
           tweet: { description: description }
@@ -175,7 +186,7 @@ export default {
         if (statusText !== "Accepted" || data.status !== "success") {
           throw new Error(statusText);
         }
-        this.isProcessing = false;
+        this.toggleIsEditing(id);
       } catch (error) {
         Toast.fire({
           type: "error",
@@ -206,19 +217,32 @@ export default {
   padding: 20px 15px 15px;
   margin-bottom: 10px;
 }
+
 .avatar {
   flex-basis: 0px;
   flex-grow: 1;
   margin: auto;
   text-align: center;
 }
+
 img {
   max-width: 128px;
 }
+
 .content {
   flex-basis: 0px;
   flex-grow: 4;
 }
+
+textarea {
+  border: 1px solid rgb(158, 157, 157);
+}
+
+textarea:focus {
+  border: 1px solid #007bff;
+  outline: none;
+}
+
 .username,
 .context,
 .replies,
@@ -232,25 +256,69 @@ a.replies {
   color: #1da1f2;
   transition: all 0.5s;
 }
+
 a.replies:hover {
   color: #006dbf;
 }
+
 .button {
   flex-basis: 0px;
   flex-grow: 1;
   text-align: end;
 }
+
+.btn-link {
+  color: #9fa1a2;
+}
+
+.btn-link:hover {
+  color: #717272;
+}
+
+.dropdown-item {
+  color: #4c4c4c;
+}
+
+.dropdown-item:disabled {
+  color: #c7c9ca;
+}
+
+.save-btn {
+  background: #1da1f2;
+  color: white;
+  height: 28px;
+  padding: 0.1rem 0.4rem;
+}
+
+.save-btn:hover {
+  background: #006dbf;
+}
+
+.cancel-btn {
+  background: #9fa1a2;
+  color: white;
+  height: 28px;
+  padding: 0.1rem 0.4rem;
+}
+
+.cancel-btn:hover {
+  background: #717272;
+}
+
 .unlike {
   color: #777;
   transition: all 0.5s;
 }
+
 .unlike:hover {
   color: #f00000;
 }
+
 .like {
   color: #ee0000;
   transition: all 0.5s;
 }
+
 .like:hover {
   color: #bb0000;
 }
