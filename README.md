@@ -37,20 +37,16 @@ $ cd simple-twitter-vue
 $ npm install
 ```
 
-```
-npm install
-```
-
 **3. Compiles and hot-reloads for development**
 ```
-npm run serve
+$ npm run serve
 ```
 
 <p>&nbsp;</p>
 
 ### Compiles and minifies for production
 ```
-npm run build
+$ npm run build
 ```
 
 ___
