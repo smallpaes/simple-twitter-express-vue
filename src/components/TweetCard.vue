@@ -50,14 +50,14 @@
           </button>
         </div>
       </div>
-      <div v-if="tweet.UserId === currentUser.id || currentUser.role === 'Admin'" class="button">
+      <div v-if="tweet.UserId === currentUser.id" class="button">
         <!-- delete button -->
         <button
           class="btn btn-danger"
           :disabled="isProcessing"
           @click.stop.prevent="deleteTweet(tweet.id)"
         >Delete</button>
-        <div class="edit my-3" v-if="tweet.User.id === currentUser.id">
+        <div class="edit my-3">
           <!-- edit button -->
           <button
             class="btn btn-primary"

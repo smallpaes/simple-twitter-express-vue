@@ -15,6 +15,7 @@
             :initial-tweet="tweet"
             @after-remove-like="afterRemoveLike"
             @after-add-like="afterAddLike"
+            @after-delete-tweet="afterDeleteTweet"
           />
           <div class="col-12 shadow-sm p-3 rounded bg-white" v-if="tweets.length < 1">
             <i class="fas fa-user mr-2"></i>Haven't post any tweets yet
@@ -108,6 +109,9 @@ export default {
       if (this.currentUser.id === this.user.id) {
         this.user.LikeCount = Number(this.user.LikeCount) + 1;
       }
+    },
+    afterDeleteTweet(tweetId) {
+      this.tweets = this.tweets.filter(tweet => tweet.id !== tweetId);
     }
   }
 };

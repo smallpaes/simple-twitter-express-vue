@@ -91,6 +91,7 @@ export default {
         }
         this.tweets.unshift({
           id: data.tweet_id,
+          UserId: formData.UserId,
           description: formData.description,
           createdAt: new Date(),
           Likes: Array(0),
@@ -111,16 +112,9 @@ export default {
         });
       }
     },
-    async afterDeleteTweet(reply_id) {
-      try {
-        this.tweets = this.tweets.filter(tweet => tweet.id !== reply_id);
-      } catch (error) {
-        Toast.fire({
-          type: "error",
-          title: "cannot delete reply, please try again later"
-        });
-      }
-    },
+    afterDeleteTweet(tweetId) {
+      this.tweets = this.tweets.filter(tweet => tweet.id !== tweetId);
+    }
   }
 };
 </script>
